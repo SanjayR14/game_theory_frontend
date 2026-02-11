@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { analyzePosition, getWinProbability } from '../services/api';
 import PayoffMatrix from './PayoffMatrix';
-import './GameTheoryDashboard.css';
 
 export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
   const [loading, setLoading] = useState(false);
@@ -49,12 +48,12 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
   // useEffect(() => { if (fen) runAnalysis(); }, [fen]);
 
   return (
-    <aside className="dashboard">
-      <header className="dashboard__header">
-        <h2 className="dashboard__title">Game Theory Dashboard</h2>
+    <aside className="w-full h-full overflow-y-auto bg-github-surface border-t lg:border-t-0 lg:border-l border-github-border p-5 rounded-lg lg:rounded-l-none">
+      <header className="mb-5">
+        <h2 className="text-xl font-bold text-github-text mb-3">Game Theory Dashboard</h2>
         <button
           type="button"
-          className="dashboard__analyze-btn"
+          className="w-full py-2.5 px-4 text-sm font-semibold text-[#0d1117] bg-github-accent rounded-md hover:bg-github-accent-hover disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-github-accent transition-colors"
           onClick={runAnalysis}
           disabled={loading || !fen || !!gameOver}
         >
@@ -63,7 +62,7 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
       </header>
 
       {error && (
-        <div className="dashboard__error">
+        <div className="py-3 px-4 bg-red-500/15 border border-github-error rounded-md text-github-error text-sm mb-4">
           {error}
         </div>
       )}
@@ -71,9 +70,9 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
       {result && (
         <>
           {result.gameOver && (
-            <section className="dashboard__section dashboard__section--terminal">
-              <h3 className="dashboard__section-title">Terminal state</h3>
-              <p className="dashboard__terminal-msg">
+            <section className="mb-4">
+              <h3 className="text-sm font-semibold text-github-muted uppercase tracking-wide mb-1">Terminal state</h3>
+              <p className="text-[#c9d1d9] text-[0.95rem]">
                 {result.checkmate && result.winner
                   ? `Checkmate! ${result.winner === 'w' ? 'White' : 'Black'} wins. Score: ${result.score}.`
                   : result.draw
@@ -84,23 +83,23 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
           )}
           {!result.gameOver && (
             <>
-          <section className="dashboard__section dashboard__section--perspective">
-            <h3 className="dashboard__section-title">Analysis for</h3>
-            <p className="dashboard__perspective">
+          <section className="mb-3">
+            <h3 className="text-sm font-semibold text-github-muted uppercase tracking-wide mb-1">Analysis for</h3>
+            <p className="text-base font-semibold text-github-accent">
               {result.currentPlayerPerspective === 'white' ? 'White' : 'Black'} (current player)
             </p>
           </section>
-          <section className="dashboard__section">
-            <h3 className="dashboard__section-title">Best move (Minimax, depth 3)</h3>
+          <section className="mb-4">
+            <h3 className="text-sm font-semibold text-github-muted uppercase tracking-wide mb-1">Best move (Minimax, depth 3)</h3>
             {result.bestMove ? (
-              <p className="dashboard__best-move mono">
+              <p className="text-lg text-github-text mono">
                 <strong>{result.bestMove.san}</strong>
                 {result.bestMove.score != null && (
-                  <span className="dashboard__score"> ({result.bestMove.score} cp)</span>
+                  <span className="font-normal text-github-muted"> ({result.bestMove.score} cp)</span>
                 )}
               </p>
             ) : (
-              <p className="dashboard__muted">—</p>
+              <p className="text-github-muted text-sm mt-1">—</p>
             )}
           </section>
 
@@ -111,14 +110,14 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
           />
 
           {(result.dominatedMoves?.length > 0) && (
-            <section className="dashboard__section dashboard__section--dominance">
-              <h3 className="dashboard__section-title">Strictly dominated moves</h3>
-              <p className="dashboard__muted dashboard__dominance-desc">
+            <section className="mb-4">
+              <h3 className="text-sm font-semibold text-github-muted uppercase tracking-wide mb-1">Strictly dominated moves</h3>
+              <p className="text-github-muted text-sm mt-1 mb-2">
                 These moves are worse than some other move in every response.
               </p>
-              <ul className="dashboard__dominated-list">
+              <ul className="list-disc pl-5 m-0">
                 {result.dominatedMoves.map((san, i) => (
-                  <li key={i} className="dashboard__dominated-item mono">
+                  <li key={i} className="text-github-error mb-1 mono">
                     {san}
                   </li>
                 ))}
@@ -129,22 +128,22 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
           )}
 
           {winProb && (
-            <section className="dashboard__section dashboard__section--winprob">
-              <h3 className="dashboard__section-title">Win probability</h3>
-              <p className="dashboard__winprob-msg">{winProb.message || '—'}</p>
+            <section className="pt-2 mt-2 border-t border-github-border">
+              <h3 className="text-sm font-semibold text-github-muted uppercase tracking-wide mb-1">Win probability</h3>
+              <p className="text-[#c9d1d9] text-[0.95rem]">{winProb.message || '—'}</p>
               {winProb.mock && (
-                <span className="dashboard__mock-badge">Mock</span>
+                <span className="inline-block mt-1.5 px-2 py-0.5 text-[0.7rem] bg-[#21262d] text-github-muted rounded">Mock</span>
               )}
             </section>
           )}
 
           {stats && (
-            <section className="dashboard__section dashboard__section--performance">
-              <h3 className="dashboard__section-title">Performance &amp; Quantitative Stats</h3>
-              <p className="dashboard__muted">
+            <section className="mb-4">
+              <h3 className="text-sm font-semibold text-github-muted uppercase tracking-wide mb-1">Performance &amp; Quantitative Stats</h3>
+              <p className="text-github-muted text-sm mt-1">
                 Supports quantitative analysis (CO10): clock-based efficiency and move dynamics.
               </p>
-              <ul className="dashboard__stats-list">
+              <ul className="mt-2 space-y-1 text-sm">
                 <li>
                   <strong>Total moves (plies):</strong>{' '}
                   <span className="mono">{stats.totalMoves ?? 0}</span>
@@ -176,7 +175,7 @@ export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
       )}
 
       {!result && !loading && !error && fen && (
-        <p className="dashboard__hint">Click &quot;Analyze position&quot; to run Minimax and see the payoff matrix.</p>
+        <p className="text-github-muted text-sm">Click &quot;Analyze position&quot; to run Minimax and see the payoff matrix.</p>
       )}
     </aside>
   );

@@ -3,7 +3,6 @@ import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import GameTheoryDashboard from './components/GameTheoryDashboard';
 import GameOverModal from './components/GameOverModal';
-import './App.css';
 
 const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
@@ -243,21 +242,34 @@ export default function App() {
   const totalMatchTimeMs =
     matchStartTime && gameOver ? Date.now() - matchStartTime : whiteElapsedMs + blackElapsedMs;
 
+  const [boardSize, setBoardSize] = useState(480);
+  useEffect(() => {
+    const updateSize = () => {
+      const w = window.innerWidth;
+      if (w < 400) setBoardSize(Math.min(320, w - 32));
+      else if (w < 640) setBoardSize(Math.min(360, w - 48));
+      else setBoardSize(480);
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
   return (
-    <div className="app">
-      <header className="app__header">
-        <h1 className="app__title">Chess Decision Support System</h1>
-        <p className="app__tagline">Game theory: Payoff matrix, dominance, minimax</p>
-        <p className="app__turn">Turn: {turn === 'w' ? 'White' : 'Black'}</p>
-        {moveError && <p className="app__move-error" role="alert">{moveError}</p>}
+    <div className="min-h-screen flex flex-col">
+      <header className="px-4 py-4 sm:px-6 sm:py-5 bg-github-surface border-b border-github-border text-center">
+        <h1 className="text-xl sm:text-2xl font-bold text-github-text mb-1">Chess Decision Support System</h1>
+        <p className="text-sm sm:text-base text-github-muted">Game theory: Payoff matrix, dominance, minimax</p>
+        <p className="text-sm font-semibold text-github-accent mt-1.5">Turn: {turn === 'w' ? 'White' : 'Black'}</p>
+        {moveError && <p className="text-sm font-medium text-github-error mt-1.5" role="alert">{moveError}</p>}
       </header>
 
-      <main className="app__main">
-        <div className="app__board-wrap">
-          <div className="app__settings">
-            <span className="app__settings-label">Clock (per side):</span>
+      <main className="flex-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-4 lg:gap-6 p-4 sm:p-6 max-w-7xl mx-auto w-full">
+        <div className="w-full max-w-[480px] flex-shrink-0 flex flex-col items-center">
+          <div className="flex items-center gap-2 mb-3 w-full max-w-md">
+            <span className="text-sm text-github-muted">Clock (per side):</span>
             <select
-              className="app__settings-select"
+              className="bg-[#0d1117] text-github-text rounded border border-github-border px-2 py-1 text-sm"
               value={baseMinutes}
               onChange={handleTimeSettingChange}
               disabled={timerRunning}
@@ -268,14 +280,18 @@ export default function App() {
             </select>
           </div>
 
-          <div className="app__clocks">
-            <div className={`app__clock app__clock--white ${activePlayer === 'w' ? 'app__clock--active' : ''}`}>
-              <span className="app__clock-label">White</span>
-              <span className="app__clock-time">{formatClock(whiteTimeMs)}</span>
+          <div className="flex gap-3 mb-3 w-full max-w-md">
+            <div className={`flex-1 flex items-center justify-between px-3 py-2 rounded-md border-2 bg-github-surface ${
+              activePlayer === 'w' ? 'border-github-accent shadow-[0_0_0_1px_rgba(63,185,80,0.6),0_0_10px_rgba(63,185,80,0.5)]' : 'border-github-border'
+            }`}>
+              <span className="text-xs text-github-muted uppercase tracking-wider">White</span>
+              <span className="font-mono font-semibold text-github-text">{formatClock(whiteTimeMs)}</span>
             </div>
-            <div className={`app__clock app__clock--black ${activePlayer === 'b' ? 'app__clock--active' : ''}`}>
-              <span className="app__clock-label">Black</span>
-              <span className="app__clock-time">{formatClock(blackTimeMs)}</span>
+            <div className={`flex-1 flex items-center justify-between px-3 py-2 rounded-md border-2 bg-github-surface ${
+              activePlayer === 'b' ? 'border-github-accent shadow-[0_0_0_1px_rgba(63,185,80,0.6),0_0_10px_rgba(63,185,80,0.5)]' : 'border-github-border'
+            }`}>
+              <span className="text-xs text-github-muted uppercase tracking-wider">Black</span>
+              <span className="font-mono font-semibold text-github-text">{formatClock(blackTimeMs)}</span>
             </div>
           </div>
 
@@ -286,7 +302,7 @@ export default function App() {
             onPromotionPieceSelect={handlePromotionPieceSelect}
             onSquareClick={handleSquareClick}
             promotionDialogVariant="modal"
-            boardWidth={480}
+            boardWidth={boardSize}
             boardOrientation={turn === 'w' ? 'white' : 'black'}
             arePiecesDraggable={!gameOver}
             showBoardLetters={true}
@@ -300,7 +316,8 @@ export default function App() {
           />
         </div>
 
-        <GameTheoryDashboard
+        <div className="w-full lg:max-w-[420px] lg:min-w-[280px]">
+          <GameTheoryDashboard
           key={playAgainKey}
           fen={fen}
           turn={turn}
@@ -312,6 +329,7 @@ export default function App() {
             blackAvgMoveSec: blackMoves ? blackElapsedMs / 1000 / blackMoves : 0,
           }}
         />
+        </div>
       </main>
 
       {gameOver && (

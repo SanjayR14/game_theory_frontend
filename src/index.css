@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *,
 *::before,
 *::after {
@@ -9,8 +13,7 @@ body {
   font-family: 'Source Serif 4', Georgia, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0f1419;
-  color: #e6edf3;
+  @apply bg-github-bg text-github-text;
 }
 
 code,
