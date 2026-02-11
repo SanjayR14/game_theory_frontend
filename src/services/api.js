@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000';
+// const API_BASE = 'http://localhost:5000';
+const API_BASE = 'https://game-theory-backend.onrender.com';
 
 /**
  * Analyze position: get best move, payoff matrix, dominated moves.
