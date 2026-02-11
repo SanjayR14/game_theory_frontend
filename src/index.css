@@ -1,0 +1,23 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Source Serif 4', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0f1419;
+  color: #e6edf3;
+}
+
+code,
+.mono {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+#root {
+  min-height: 100vh;
+}

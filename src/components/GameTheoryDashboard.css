@@ -1,0 +1,141 @@
+.dashboard {
+  width: 100%;
+  min-width: 280px;
+  max-width: 420px;
+  height: 100%;
+  overflow-y: auto;
+  background: #161b22;
+  border-left: 1px solid #30363d;
+  padding: 1.25rem;
+}
+
+.dashboard__header {
+  margin-bottom: 1.25rem;
+}
+
+.dashboard__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  color: #e6edf3;
+}
+
+.dashboard__analyze-btn {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0d1117;
+  background: #3fb950;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dashboard__analyze-btn:hover:not(:disabled) {
+  background: #56d364;
+}
+
+.dashboard__analyze-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard__error {
+  padding: 0.75rem;
+  background: rgba(248, 81, 73, 0.15);
+  border: 1px solid #f85149;
+  border-radius: 6px;
+  color: #f85149;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard__section {
+  margin-bottom: 1rem;
+}
+
+.dashboard__section--perspective {
+  margin-bottom: 0.75rem;
+}
+
+.dashboard__perspective {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3fb950;
+}
+
+.dashboard__section-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #8b949e;
+  margin: 0 0 0.4rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dashboard__best-move {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #e6edf3;
+}
+
+.dashboard__score {
+  font-weight: 400;
+  color: #8b949e;
+}
+
+.dashboard__muted {
+  color: #8b949e;
+  font-size: 0.9rem;
+  margin: 0.35rem 0 0 0;
+}
+
+.dashboard__dominance-desc {
+  margin-bottom: 0.5rem;
+}
+
+.dashboard__dominated-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.dashboard__dominated-item {
+  color: #f85149;
+  margin-bottom: 0.25rem;
+}
+
+.dashboard__section--winprob {
+  padding-top: 0.5rem;
+  border-top: 1px solid #30363d;
+}
+
+.dashboard__winprob-msg {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #c9d1d9;
+}
+
+.dashboard__section--terminal .dashboard__terminal-msg {
+  margin: 0;
+  color: #c9d1d9;
+  font-size: 0.95rem;
+}
+
+.dashboard__mock-badge {
+  display: inline-block;
+  margin-top: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  background: #21262d;
+  color: #8b949e;
+  border-radius: 4px;
+}
+
+.dashboard__hint {
+  color: #8b949e;
+  font-size: 0.9rem;
+  margin: 0;
+}
