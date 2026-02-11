@@ -3,7 +3,7 @@ import { analyzePosition, getWinProbability } from '../services/api';
 import PayoffMatrix from './PayoffMatrix';
 import './GameTheoryDashboard.css';
 
-export default function GameTheoryDashboard({ fen, turn, gameOver }) {
+export default function GameTheoryDashboard({ fen, turn, gameOver, stats }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
@@ -135,6 +135,41 @@ export default function GameTheoryDashboard({ fen, turn, gameOver }) {
               {winProb.mock && (
                 <span className="dashboard__mock-badge">Mock</span>
               )}
+            </section>
+          )}
+
+          {stats && (
+            <section className="dashboard__section dashboard__section--performance">
+              <h3 className="dashboard__section-title">Performance &amp; Quantitative Stats</h3>
+              <p className="dashboard__muted">
+                Supports quantitative analysis (CO10): clock-based efficiency and move dynamics.
+              </p>
+              <ul className="dashboard__stats-list">
+                <li>
+                  <strong>Total moves (plies):</strong>{' '}
+                  <span className="mono">{stats.totalMoves ?? 0}</span>
+                </li>
+                <li>
+                  <strong>Total match time:</strong>{' '}
+                  <span className="mono">
+                    {stats.totalMatchTimeMs != null
+                      ? `${Math.round(stats.totalMatchTimeMs / 1000)} s`
+                      : '—'}
+                  </span>
+                </li>
+                <li>
+                  <strong>Average move time – White:</strong>{' '}
+                  <span className="mono">
+                    {stats.whiteAvgMoveSec ? stats.whiteAvgMoveSec.toFixed(2) : '—'} s
+                  </span>
+                </li>
+                <li>
+                  <strong>Average move time – Black:</strong>{' '}
+                  <span className="mono">
+                    {stats.blackAvgMoveSec ? stats.blackAvgMoveSec.toFixed(2) : '—'} s
+                  </span>
+                </li>
+              </ul>
             </section>
           )}
         </>
