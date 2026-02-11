@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || '';
+const API_BASE = 'http://localhost:5000';
 
 /**
  * Analyze position: get best move, payoff matrix, dominated moves.
@@ -18,8 +18,7 @@ export async function analyzePosition(fen) {
  */
 export async function getWinProbability(fen) {
   try {
-    const base = process.env.REACT_APP_ML_URL || 'http://localhost:5001';
-    const { data } = await axios.post(`${base}/api/win-probability`, { fen });
+    const { data } = await axios.post(`${API_BASE}/api/win-probability`, { fen });
     return data;
   } catch (e) {
     return { winProbability: 0.5, message: 'ML service unavailable', mock: true };
